@@ -41,7 +41,7 @@ namespace AluraFlix.Controllers
         public IActionResult GetById(int id)
         {
             Categoria categoria = _context.Categorias.FirstOrDefault(categoria => categoria.Id == id);
-            if(categoria != null)
+            if (categoria != null)
             {
                 ReadCategoriaDto categoriaDto = _mapper.Map<ReadCategoriaDto>(categoria);
                 return Ok(categoriaDto);
@@ -54,11 +54,24 @@ namespace AluraFlix.Controllers
         public IActionResult UpdateCategoria(int id, [FromBody] UpdateCategoriaDto categoriaDto)
         {
             Categoria categoria = _context.Categorias.FirstOrDefault(categoria => categoria.Id == id);
-            if(categoria == null)
+            if (categoria == null)
             {
                 return NotFound();
             }
             _mapper.Map(categoriaDto, categoria);
+            _context.SaveChanges();
+            return NoContent();
+        }
+
+        [HttpDelete("{id}")]
+        public IActionResult DeleteCategoria(int id)
+        {
+            Categoria categoria = _context.Categorias.FirstOrDefault(categoria => categoria.Id == id);
+            if (categoria == null)
+            {
+                return NotFound();
+            }
+            _context.Remove(categoria);
             _context.SaveChanges();
             return NoContent();
         }
