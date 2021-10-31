@@ -14,6 +14,14 @@ namespace AluraFlix.Data
 
         }
 
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            builder.Entity<Categoria>()
+                .HasOne(Categorias => Categorias.Video)
+                .WithOne(Videos => Videos.Categoria)
+                .HasForeignKey<Video>(Videos => Videos.CategoriaId);
+        }
+
         public DbSet<Video> Videos { get; set; }
         public DbSet<Categoria> Categorias { get; set; }
 

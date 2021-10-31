@@ -23,9 +23,11 @@ namespace AluraFlix.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Cor")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("Titulo")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("Id");
@@ -37,6 +39,9 @@ namespace AluraFlix.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<int>("CategoriaId")
                         .HasColumnType("int");
 
                     b.Property<string>("Descricao")
@@ -53,7 +58,26 @@ namespace AluraFlix.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CategoriaId")
+                        .IsUnique();
+
                     b.ToTable("Videos");
+                });
+
+            modelBuilder.Entity("AluraFlix.Models.Video", b =>
+                {
+                    b.HasOne("AluraFlix.Models.Categoria", "Categoria")
+                        .WithOne("Video")
+                        .HasForeignKey("AluraFlix.Models.Video", "CategoriaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Categoria");
+                });
+
+            modelBuilder.Entity("AluraFlix.Models.Categoria", b =>
+                {
+                    b.Navigation("Video");
                 });
 #pragma warning restore 612, 618
         }
