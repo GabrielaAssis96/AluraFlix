@@ -14,5 +14,6 @@ namespace AluraFlix.Dtos
         public string Descricao { get; set; }
         [Required(ErrorMessage = "O campo URL é obrgatório")]
         public string Url { get; set; }
+        public int CategoriaId { get; set; }
     }
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace AluraFlix.Models
@@ -17,7 +18,9 @@ namespace AluraFlix.Models
         public string Descricao { get; set; }
         [Required(ErrorMessage = "O campo URL é obrgatório")]
         public string Url { get; set; }
-        public Categoria Categoria { get; set; }
+        [JsonIgnore]
+        public virtual Categoria Categoria { get; set; }
+        [JsonIgnore]
         public int CategoriaId { get; set; }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AluraFlix.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -18,5 +19,6 @@ namespace AluraFlix.Dtos
         [Required(ErrorMessage = "O campo URL é obrgatório")]
         public string Url { get; set; }
         public DateTime HoraDaConsulta { get; set; }
+        public Categoria Categoria { get; set; }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AluraFlix.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -15,5 +16,6 @@ namespace AluraFlix.Dtos
         public string Titulo { get; set; }
         [Required(ErrorMessage = "A Escolha da cor é obrigatória")]
         public string Cor { get; set; }
+        public Video Video { get; set; }
     }
 }
