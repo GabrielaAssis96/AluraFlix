@@ -33,9 +33,26 @@ namespace AluraFlix.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetAllVideo()
+        public IActionResult GetAllVideo([FromQuery] string? tituloVideos = null)
         {
-            return Ok(_context.Videos);
+            List<Video> videos;
+            if (tituloVideos == null)
+            {
+                videos = _context.Videos.ToList();
+            }
+            else
+            {
+                videos = _context
+                  .Videos.Where(video => video.Titulo == tituloVideos).ToList();
+            }
+            if (videos != null)
+            {
+                List<ReadVideoDto> readDto = _mapper.Map<List<ReadVideoDto>>(videos);
+                return Ok(readDto);
+            }
+            return NotFound();
+
+
         }
 
         [HttpGet("{id}")]
