@@ -1,11 +1,10 @@
 package com.api.aluraFlix.controller
 
+import com.api.aluraFlix.dto.VideoDtoRequest
+import com.api.aluraFlix.dto.VideoDtoResponse
 import com.api.aluraFlix.model.Video
 import com.api.aluraFlix.service.VideoService
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/videos")
@@ -14,12 +13,17 @@ class VideoController(
 ) {
 
     @GetMapping
-    fun getVideos(): List<Video> {
+    fun getVideos(): List<VideoDtoResponse> {
         return videoService.listar()
     }
 
     @GetMapping("/{id}")
-    fun buscarVideoPorId(@PathVariable id: Long): Video{
+    fun buscarVideoPorId(@PathVariable id: Long): VideoDtoResponse {
         return videoService.buscarPorId(id)
+    }
+
+    @PostMapping
+    fun cadastrarVideo(@RequestBody videoDtoRequest: VideoDtoRequest) {
+        videoService.cadastrarVideo(videoDtoRequest)
     }
 }

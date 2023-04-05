@@ -1,46 +1,43 @@
 package com.api.aluraFlix.service
 
+import com.api.aluraFlix.dto.VideoDtoRequest
+import com.api.aluraFlix.dto.VideoDtoResponse
 import com.api.aluraFlix.model.Video
 import org.springframework.stereotype.Service
+import java.util.stream.Collectors
 
 @Service
-class VideoService(private var listaVideos: List<Video>) {
+class VideoService(private var listaVideos: List<Video> = ArrayList()) {
 
-    init {
-        val video1 = (Video
-            (
-            id = 1,
-            titulo = "COISAS DA MODA",
-            descricao = "Tendencias da moda 2000 ",
-            url = "/"
-        ))
-
-        val video2 = (Video
-            (
-            id = 2,
-            titulo = "RECEITA DE BOLO",
-            descricao = "Receita da vovó Cicera",
-            url = "/"
-        ))
-
-        val video3 = (Video
-            (
-            id = 3,
-            titulo = "OS MELHORES FILMES DE COMÉDIA",
-            descricao = "Listando os melhores filmes do ano!",
-            url = "/"
-        ))
-
-        listaVideos = listOf(video1, video2, video3)
+    fun listar(): List<VideoDtoResponse> {
+        return listaVideos.stream().map {
+            VideoDtoResponse(
+                id = it.id,
+                titulo = it.titulo,
+                descricao = it.descricao,
+                url = it.url
+            )
+        }.collect(Collectors.toList())
     }
 
-    fun listar(): List<Video> {
-        return listaVideos
-    }
-
-    fun buscarPorId(id: Long): Video {
-        return listaVideos.stream().filter { video ->
+    fun buscarPorId(id: Long): VideoDtoResponse {
+        val video = listaVideos.stream().filter { video ->
             video.id == id
         }.findFirst().get()
+        return VideoDtoResponse(
+            id = video.id, titulo = video.titulo, descricao = video.descricao, url = video.url
+
+        )
+    }
+
+    fun cadastrarVideo(videoDtoRequest: VideoDtoRequest) {
+        listaVideos = listaVideos.plus(
+            Video(
+                id = listaVideos.size.toLong() + 1,
+                titulo = videoDtoRequest.titulo,
+                descricao = videoDtoRequest.descricao,
+                url = videoDtoRequest.url
+            )
+        )
     }
 }
