@@ -2,10 +2,12 @@ package com.api.aluraFlix.controller
 
 import com.api.aluraFlix.dto.VideoDtoRequest
 import com.api.aluraFlix.dto.VideoDtoResponse
-import com.api.aluraFlix.model.Video
 import com.api.aluraFlix.service.VideoService
+import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.*
+import javax.validation.Valid
 
+@Validated
 @RestController
 @RequestMapping("/videos")
 class VideoController(
@@ -23,7 +25,7 @@ class VideoController(
     }
 
     @PostMapping
-    fun cadastrarVideo(@RequestBody videoDtoRequest: VideoDtoRequest) {
+    fun cadastrarVideo(@RequestBody @Valid videoDtoRequest: VideoDtoRequest) {
         videoService.cadastrarVideo(videoDtoRequest)
     }
 }

@@ -24,6 +24,8 @@ dependencies {
 	runtimeOnly("com.h2database:h2")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	implementation("javax.persistence:javax.persistence-api:2.2")
+	implementation("javax.validation:validation-api:2.0.1.Final")
+
 }
 
 tasks.withType<KotlinCompile> {
