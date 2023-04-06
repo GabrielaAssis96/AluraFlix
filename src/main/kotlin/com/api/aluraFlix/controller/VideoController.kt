@@ -1,5 +1,6 @@
 package com.api.aluraFlix.controller
 
+import com.api.aluraFlix.dto.VideoDtoAtualizacaoRequest
 import com.api.aluraFlix.dto.VideoDtoRequest
 import com.api.aluraFlix.dto.VideoDtoResponse
 import com.api.aluraFlix.service.VideoService
@@ -27,5 +28,15 @@ class VideoController(
     @PostMapping
     fun cadastrarVideo(@RequestBody @Valid videoDtoRequest: VideoDtoRequest) {
         videoService.cadastrarVideo(videoDtoRequest)
+    }
+
+    @PutMapping
+    fun atualizarVideo(@RequestBody @Valid videoDtoAtualizacao: VideoDtoAtualizacaoRequest){
+        videoService.atualizarVideo(videoDtoAtualizacao)
+    }
+
+    @DeleteMapping("/   {id}")
+    fun deletaVideo(@PathVariable id: Long){
+        videoService.deletaVideo(id)
     }
 }
