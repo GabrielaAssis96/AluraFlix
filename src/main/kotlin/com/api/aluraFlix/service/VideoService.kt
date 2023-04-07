@@ -30,26 +30,26 @@ class VideoService(
         return videoResponseMapper.map(video)
     }
 
-    fun cadastrarVideo(videoDtoRequest: VideoDtoRequest) {
+    fun cadastrarVideo(videoDtoRequest: VideoDtoRequest): VideoDtoResponse {
         val video = videoRequestMapper.map(videoDtoRequest)
         video.id = listaVideos.size.toLong() + 1
         listaVideos = listaVideos.plus(video)
+        return videoResponseMapper.map(video)
     }
 
-    fun atualizarVideo(videoDtoAtualizacao: VideoDtoAtualizacaoRequest) {
+    fun atualizarVideo(videoDtoAtualizacao: VideoDtoAtualizacaoRequest): VideoDtoResponse {
         val video = listaVideos.stream().filter { video ->
             video.id == videoDtoAtualizacao.id
         }.findFirst().get()
+        val videoAtualizado = Video(
+            id = videoDtoAtualizacao.id,
+            titulo = videoDtoAtualizacao.titulo,
+            descricao = videoDtoAtualizacao.descricao,
+            url = video.url
+        )
         listaVideos =
-            listaVideos.minus(video).plus(
-                Video(
-                    id = videoDtoAtualizacao.id,
-                    titulo = videoDtoAtualizacao.titulo,
-                    descricao = videoDtoAtualizacao.descricao,
-                    url = video.url
-                )
-            )
-
+            listaVideos.minus(video).plus(videoAtualizado)
+        return videoResponseMapper.map(videoAtualizado)
     }
 
     fun deletaVideo(id: Long) {
