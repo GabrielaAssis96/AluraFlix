@@ -3,6 +3,7 @@ package com.api.aluraFlix.service
 import com.api.aluraFlix.dto.VideoDtoAtualizacaoRequest
 import com.api.aluraFlix.dto.VideoDtoRequest
 import com.api.aluraFlix.dto.VideoDtoResponse
+import com.api.aluraFlix.exception.NotFoundException
 import com.api.aluraFlix.mapper.VideoRequestMapper
 import com.api.aluraFlix.mapper.VideoResponseMapper
 import com.api.aluraFlix.model.Video
@@ -26,7 +27,7 @@ class VideoService(
     fun buscarPorId(id: Long): VideoDtoResponse {
         val video = listaVideos.stream().filter { video ->
             video.id == id
-        }.findFirst().get()
+        }.findFirst().orElseThrow{NotFoundException("Video não encontrado")}
         return videoResponseMapper.map(video)
     }
 
@@ -55,7 +56,7 @@ class VideoService(
     fun deletaVideo(id: Long) {
         val video = listaVideos.stream().filter { video ->
             video.id == id
-        }.findFirst().get()
+        }.findFirst().orElseThrow { NotFoundException("Video não encontrado") }
         listaVideos = listaVideos.minus(video)
     }
 }
